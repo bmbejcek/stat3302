@@ -1,1 +1,1 @@
-# stat3302
+# Statistics Project presented by Brett Bejcek and Kyle Voytovich
