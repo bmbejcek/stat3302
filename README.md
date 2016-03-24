@@ -7,5 +7,5 @@ This project focuses on exploratory data analysis, model building, selection, an
 
 AUTHORS
 -------
-Brett Bejcek
-Kyle Voytovich
+* Brett Bejcek
+* Kyle Voytovich
