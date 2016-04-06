@@ -43,8 +43,3 @@ count_successes <- function(variable, result) {
   
   return(res)
 }
-
-
-
-
-
