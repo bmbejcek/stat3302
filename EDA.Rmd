@@ -1,19 +1,19 @@
-## ======================================================================
-## Stat 3302 Project:
-##
-##   Exploratory data analysis, model building, selection, 
-##   and diagnostics around the Barry Bonds 2001 Plate
-##   Appearances. 
-##
-##   http://www.amstat.org/publications/jse/datasets/bonds2001.txt
-##
-##   Brett Bejcek, Kyle Voytovich, Last updated March 2016
-## ======================================================================
+---
+title: "EDA - Stat 3302 Project"
+author: "Kyle Voytovich"
+output: pdf_document
+---
+
+```{r, echo = FALSE}
 
 wd <- "/Users/iowner/OneDrive/School/Spring_2016/Stat 3302/Project/Stat 3302 Project/"
 setwd(wd)
 
 bonds <- read.table("Bonds Data", header = TRUE)
+
+```
+
+```{r, echo = FALSE}
 
 # count_successes: returns a data frame of the number of successes and
 #   failures in the result divided by the values that variable takes
@@ -53,18 +53,13 @@ percent_successes <- function(df) {
   return(result)
 }
 
-# Whether bonds gets on base
-bonds$success <- as.numeric(bonds$result != 0)
+```
 
-# Is it a home game?
-# Is someone on first base?
-# Is someone on second base?
-# Is someone on third base?
-# How many people are on base?
-# How many outs are there?
-# What inning is it?
-# What appearance is it for bonds?
-# What's the opposing pitcher's era?
+# Whether Bonds gets on base
+
+```{r}
+
+bonds$success <- as.numeric(bonds$result != 0)
 
 bonds$onbase <- bonds$first + bonds$second + bonds$third
 bonds$inningcap <- ifelse(bonds$inning >= 10, 10, bonds$inning)
@@ -91,7 +86,92 @@ inningp <- percent_successes(inning)
 appearancep <- percent_successes(appearance)
 erap <- percent_successes(era)
 
+```
 
+## Is it a home game?
+
+```{r, echo = FALSE}
+
+home
+round(homep, 2)
+
+```
+
+\pagebreak
+
+# Is someone on first base?
+
+```{r, echo = FALSE}
+
+first
+round(firstp, 2)
+
+```
+
+# Is someone on second base?
+
+```{r, echo = FALSE}
+
+second
+round(secondp, 2)
+
+```
+
+# Is someone on third base?
+
+```{r, echo = FALSE}
+
+third
+round(thirdp, 2)
+
+```
+
+# How many people are on base?
+
+```{r, echo = FALSE}
+
+onbase
+round(onbasep, 2)
+
+```
+
+# How many outs are there?
+
+```{r, echo = FALSE}
+
+outs
+round(outsp, 2)
+
+```
+
+# What inning is it?
+
+```{r, echo = FALSE}
+
+inning
+round(inningp, 2)
+
+```
+
+\pagebreak
+
+# What appearance is it for bonds?
+
+```{r, echo = FALSE}
+
+appearance
+round(appearancep, 2)
+
+```
+
+# What's the opposing pitcher's era?
+
+```{r, echo = FALSE}
+
+era
+round(erap, 2)
+
+```
 
 
 
