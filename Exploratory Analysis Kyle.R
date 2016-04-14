@@ -45,7 +45,7 @@ count_successes <- function(result, variable, name) {
   return(res)
 }
 
-# percent_successes:
+# percent_successes: convert raw counts to percentages
 percent_successes <- function(df) {
   result <- df
   result$success <- result$success / result$total
@@ -91,7 +91,18 @@ inningp <- percent_successes(inning)
 appearancep <- percent_successes(appearance)
 erap <- percent_successes(era)
 
+# models for whether bonds gets on base
 
+# number of people on base
+bonds.glm <- glm(bonds$success ~ factor(bonds$onbase), family = binomial)
+summary(bonds.glm)
+anova(bonds.glm, test = "Chisq")
+
+# number of people on base + appearance
+bonds2.glm <- glm(bonds$success ~ factor(bonds$onbase) + bonds$appearance,
+                  family = binomial)
+summary(bonds2.glm)
+anova(bonds2.glm, test = "Chisq")
 
 
 
