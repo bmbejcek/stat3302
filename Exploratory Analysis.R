@@ -96,3 +96,14 @@ bonds9.glm <- glm(factor(bonds$onBase)~bonds$game+bonds$appearance, family = bin
 summary(bonds9.glm)
 anova(bonds9.glm, test = "Chisq")
 
+bonds10.glm <- glm(factor(bonds$onBase)~factor(bonds$anyOnBase)+bonds$appearance + bonds$game, family = binomial)
+summary(bonds10.glm)
+anova(bonds10.glm, test = "Chisq")
+
+bonds11.glm <- glm(factor(bonds$onBase)~factor(bonds$noOnBase)+bonds$appearance + bonds$game, family = binomial)
+summary(bonds11.glm)
+anova(bonds11.glm, test = "Chisq")
+
+bonds12.glm <- glm(factor(bonds$intentional)~bonds$game, family = binomial)
+summary(bonds12.glm)
+anova(bonds12.glm, test = "Chisq")
