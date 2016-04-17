@@ -104,6 +104,31 @@ bonds2.glm <- glm(bonds$success ~ factor(bonds$onbase) + bonds$appearance,
 summary(bonds2.glm)
 anova(bonds2.glm, test = "Chisq")
 
+# graphs
+library(ggplot2)
+library(boot)
+
+ggplot(appearancep, aes(x = appearancecap, y = success)) +
+  geom_point(color = "#000000", size = 5) +
+  guides(color = "FALSE", size = FALSE) +
+  scale_x_continuous(labels = c("1", "2", "3", "4", "5+")) +
+  xlab("\nAppearance Number") + ylab("Prob of Success\n") +
+  theme(axis.text = element_text(size = 15),
+        axis.title = element_text(size = 20))
+
+ggplot(appearancep, aes(x = I(1/appearancecap), y = success)) +
+  geom_point(color = "#000000", size = 5) +
+  guides(color = "FALSE", size = FALSE) +
+  scale_x_continuous(labels = c("1/5", "1/4", "1/3", "1/2", "1")) +
+  xlab("\nReciprocal Appearance Number") + ylab("Prob of Success\n") +
+  theme(axis.text = element_text(size = 15),
+        axis.title = element_text(size = 20))
+
+ggplot(appearancep, aes(x = appearancecap, y = logit(success))) +
+  geom_point()
+ggplot(appearancep, aes(x = I(1/appearancecap), y = logit(success))) +
+  geom_point()
+
 
 
 
