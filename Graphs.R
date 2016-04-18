@@ -31,10 +31,8 @@ ggplot(appearancep, aes(x = I(1/appearancecap), y = success)) +
 
 Group10 <- read.csv("~/Stat 3302/Stat 3302 Project/Group10.csv")
 ggplot(Group10, aes(x = Group, y = Percentage)) +
-  geom_point(aes(color = Total), size = 5) +
-  xlab("\nGroup Number") + ylab("Probability of Success\n") +
+  geom_point(size = 5) +
+  xlab("\nGroup Number") + ylab("Probability of Getting on Base\n") +
   theme(axis.text = element_text(size = 15),
-        axis.title = element_text(size = 20)) +
-  scale_color_gradient2(low = "red", mid = "white", high = "blue",
-                      midpoint = 0, space = "rgb", guide = "colourbar")
+        axis.title = element_text(size = 20))
 
