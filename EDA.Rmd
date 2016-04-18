@@ -1,12 +1,12 @@
 ---
 title: "EDA - Stat 3302 Project"
 author: "Kyle Voytovich"
-output: pdf_document
+output: html_document
 ---
 
 ```{r, echo = FALSE}
 
-wd <- "/Users/iowner/OneDrive/School/Spring_2016/Stat 3302/Project/Stat 3302 Project/"
+wd <- "~/Stat 3302/Stat 3302 Project"
 setwd(wd)
 
 bonds <- read.table("Bonds Data", header = TRUE)

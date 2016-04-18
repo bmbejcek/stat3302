@@ -107,3 +107,15 @@ anova(bonds11.glm, test = "Chisq")
 bonds12.glm <- glm(factor(bonds$intentional)~bonds$game, family = binomial)
 summary(bonds12.glm)
 anova(bonds12.glm, test = "Chisq")
+
+bonds13.glm <- glm(factor(bonds$onBase)~factor(bonds$noOnBase)+bonds$invApp + bonds$game, family = binomial)
+summary(bonds13.glm)
+anova(bonds13.glm, test = "Chisq")
+
+bonds14.glm <- glm(factor(bonds$onBase)~factor(bonds$anyOnBase)+bonds$invApp, family = binomial)
+summary(bonds14.glm)
+anova(bonds14.glm, test = "Chisq")
+
+bonds15.glm <- glm(factor(bonds$onBase)~factor(bonds$anyOnBase)+bonds$invApp + bonds$game + I(bonds$game^2), family = binomial)
+summary(bonds15.glm)
+anova(bonds15.glm, test = "Chisq")

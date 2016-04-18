@@ -27,3 +27,11 @@ ggplot(appearancep, aes(x = I(1/appearancecap), y = success)) +
   xlab("\nReciprocal Appearance Number") + ylab("Prob of Success\n") +
   theme(axis.text = element_text(size = 15),
         axis.title = element_text(size = 20))
+
+Group10 <- read.csv("~/Stat 3302/Stat 3302 Project/Group10.csv")
+ggplot(Group10, aes(x = Group, y = Percentage)) +
+  geom_point(size = 5) +
+  xlab("\nGroup Number") + ylab("Probability of Getting on Base\n") +
+  theme(axis.text = element_text(size = 15),
+        axis.title = element_text(size = 20))
+
