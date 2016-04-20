@@ -35,3 +35,22 @@ ggplot(Group10, aes(x = Group, y = Percentage)) +
   theme(axis.text = element_text(size = 15),
         axis.title = element_text(size = 20))
 
+## Check the diagnostic plots
+
+fits <- fitted(bonds15.glm)
+dev.resids <- resid(bonds15.glm)
+pear.resids <- resid(bonds15.glm, type="pearson")
+
+par(cex = 1.4)
+
+plot(fits, dev.resids, xlab="fitted values", ylab="deviance residuals", ylim=c(-2,2))
+abline(h=0, lty=2)
+
+plot(bonds$game, dev.resids, xlab="game", ylab="deviance residuals", ylim=c(-2, 2))
+abline(h=0, lty=2)
+
+qqnorm(dev.resids, ylab="deviance residuals", main="", ylim=c(-3, 3), xlim=c(-3,3))
+qqline(dev.resids)
+
+
+

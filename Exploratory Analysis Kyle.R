@@ -128,6 +128,134 @@ ggplot(appearancep, aes(x = appearancecap, y = logit(success))) +
 ggplot(appearancep, aes(x = I(1/appearancecap), y = logit(success))) +
   geom_point()
 
+# Using variables defined by Brett
+bonds$onBase<- bonds$result>0
+bonds$onBase <- 1*(bonds$onBase)
+bonds$anyOnBase <- bonds$first == 1 | bonds$second == 1 | bonds$third == 1
+bonds$anyOnBase <- 1*(bonds$anyOnBase)
+bonds$invApp <- 1 / bonds$appearance
 
+# Look at prediction intervals for our final model
+library(boot)
+
+bonds15.glm <- glm(factor(bonds$onBase)~factor(bonds$anyOnBase) +
+                     bonds$invApp + bonds$game, family = binomial)
+
+bonds$anyOnBase <- factor(bonds$anyOnBase)
+bonds16.glm <- glm(onBase ~ anyOnBase + invApp + game, data = bonds,
+                   family = binomial)
+
+appearances <- c(1, 2, 3, 4, 5, 6, 7, 8)
+inv_appearances <- 1 / appearances
+game_no <- median(bonds$game)
+
+pred.onbase <- predict(bonds16.glm,
+                       data.frame(invApp = inv_appearances,
+                                  anyOnBase = factor(1, levels = c(0, 1)),
+                                  game = game_no),
+                       se.fit=T)
+
+pred.noneonbase <- predict(bonds16.glm,
+                           data.frame(invApp = inv_appearances,
+                                      anyOnBase = factor(0, levels = c(0, 1)),
+                                      game = game_no),
+                           se.fit=T)
+
+## plot the predictions on the logit scale
+plot(inv_appearances, pred.onbase$fit,
+     type = "l", ylim = c(-0.75, 1.25), xlab = "invApp", ylab = "logit",
+     main = "Teammate is on base")
+lines(inv_appearances, pred.onbase$fit + 1.96 * pred.onbase$se.fit, lty = 2)
+lines(inv_appearances, pred.onbase$fit - 1.96 * pred.onbase$se.fit, lty = 2)
+
+plot(appearances, pred.onbase$fit,
+     type = "l", ylim = c(-0.75, 1.25), xlab = "App", ylab = "logit",
+     main = "Teammate is on base")
+lines(appearances, pred.onbase$fit + 1.96 * pred.onbase$se.fit, lty = 2)
+lines(appearances, pred.onbase$fit - 1.96 * pred.onbase$se.fit, lty = 2)
+
+## plot on probability scale
+plot(inv_appearances, inv.logit(pred.onbase$fit),
+     type = "l", ylim = c(0.4, 0.8), xlab = "invApp", ylab = "probability",
+     main = "Teammate is on base")
+lines(inv_appearances, inv.logit(pred.onbase$fit + 1.96 * pred.onbase$se.fit), lty = 2)
+lines(inv_appearances, inv.logit(pred.onbase$fit - 1.96 * pred.onbase$se.fit), lty = 2)
+
+plot(appearances, inv.logit(pred.onbase$fit),
+     type = "l", ylim = c(0.4, 0.8), xlab = "App", ylab = "probability",
+     main = "Teammate is on base")
+lines(appearances, inv.logit(pred.onbase$fit + 1.96 * pred.onbase$se.fit), lty = 2)
+lines(appearances, inv.logit(pred.onbase$fit - 1.96 * pred.onbase$se.fit), lty = 2)
+
+## plot the predictions on the logit scale
+plot(inv_appearances, pred.noneonbase$fit,
+     type = "l", ylim = c(-0.75, 1.25), xlab = "invApp", ylab = "logit",
+     main = "No teammate is on base")
+lines(inv_appearances, pred.noneonbase$fit + 1.96 * pred.noneonbase$se.fit, lty = 2)
+lines(inv_appearances, pred.noneonbase$fit - 1.96 * pred.noneonbase$se.fit, lty = 2)
+
+plot(appearances, pred.noneonbase$fit,
+     type = "l", ylim = c(-0.75, 1.25), xlab = "App", ylab = "logit",
+     main = "No teammate is on base")
+lines(appearances, pred.noneonbase$fit + 1.96 * pred.noneonbase$se.fit, lty = 2)
+lines(appearances, pred.noneonbase$fit - 1.96 * pred.noneonbase$se.fit, lty = 2)
+
+## plot on probability scale
+plot(inv_appearances, inv.logit(pred.noneonbase$fit),
+     type = "l", ylim = c(0.3, 0.8), xlab = "invApp", ylab = "probability",
+     main = "No teammate is on base")
+lines(inv_appearances, inv.logit(pred.noneonbase$fit + 1.96 * pred.noneonbase$se.fit), lty = 2)
+lines(inv_appearances, inv.logit(pred.noneonbase$fit - 1.96 * pred.noneonbase$se.fit), lty = 2)
+
+plot(appearances, inv.logit(pred.noneonbase$fit),
+     type = "l", ylim = c(0.3, 0.8), xlab = "App", ylab = "probability",
+     main = "No teammate is on base")
+lines(appearances, inv.logit(pred.noneonbase$fit + 1.96 * pred.noneonbase$se.fit), lty = 2)
+lines(appearances, inv.logit(pred.noneonbase$fit - 1.96 * pred.noneonbase$se.fit), lty = 2)
+
+## Apply the same code for varying game
+games <- 1:162
+appearance_no <- median(bonds$appearance)
+inv_appearance_no <- 1 / appearance_no
+
+pred.onbase <- predict(bonds16.glm,
+                       data.frame(invApp = inv_appearance_no,
+                                  anyOnBase = factor(1, levels = c(0, 1)),
+                                  game = games),
+                       se.fit=T)
+
+pred.noneonbase <- predict(bonds16.glm,
+                           data.frame(invApp = inv_appearance_no,
+                                      anyOnBase = factor(0, levels = c(0, 1)),
+                                      game = games),
+                           se.fit=T)
+
+## plot the predictions on the logit scale
+plot(games, pred.onbase$fit,
+     type = "l", ylim = c(-0.75, 1.25), xlab = "game", ylab = "logit",
+     main = "Teammate is on base")
+lines(games, pred.onbase$fit + 1.96 * pred.onbase$se.fit, lty = 2)
+lines(games, pred.onbase$fit - 1.96 * pred.onbase$se.fit, lty = 2)
+
+## plot on probability scale
+plot(games, inv.logit(pred.onbase$fit),
+     type = "l", ylim = c(0.2, 0.8), xlab = "game", ylab = "probability",
+     main = "Teammate is on base")
+lines(games, inv.logit(pred.onbase$fit + 1.96 * pred.onbase$se.fit), lty = 2)
+lines(games, inv.logit(pred.onbase$fit - 1.96 * pred.onbase$se.fit), lty = 2)
+
+## plot the predictions on the logit scale
+plot(games, pred.noneonbase$fit,
+     type = "l", ylim = c(-0.75, 1.25), xlab = "game", ylab = "logit",
+     main = "No teammate is on base")
+lines(games, pred.noneonbase$fit + 1.96 * pred.noneonbase$se.fit, lty = 2)
+lines(games, pred.noneonbase$fit - 1.96 * pred.noneonbase$se.fit, lty = 2)
+
+## plot on probability scale
+plot(games, inv.logit(pred.noneonbase$fit),
+     type = "l", ylim = c(0.2, 0.8), xlab = "game", ylab = "probability",
+     main = "No teammate is on base")
+lines(games, inv.logit(pred.noneonbase$fit + 1.96 * pred.noneonbase$se.fit), lty = 2)
+lines(games, inv.logit(pred.noneonbase$fit - 1.96 * pred.noneonbase$se.fit), lty = 2)
 
 
