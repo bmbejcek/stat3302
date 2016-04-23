@@ -24,7 +24,6 @@ ggplot(appearancep, aes(x = appearancecap, y = success)) +
 ggplot(appearancep, aes(x = I(1/appearancecap), y = success)) +
   geom_point(color = "#000000", size = 5) +
   guides(color = "FALSE", size = FALSE) +
-  scale_x_continuous(labels = c("1/5", "1/4", "1/3", "1/2", "1")) +
   xlab("\nReciprocal Appearance Number") + ylab("Prob of Success\n") +
   theme(axis.text = element_text(size = 15),
         axis.title = element_text(size = 20))
@@ -35,4 +34,23 @@ ggplot(Group10, aes(x = Group, y = Percentage)) +
   xlab("\nGroup Number") + ylab("Probability of Getting on Base\n") +
   theme(axis.text = element_text(size = 15),
         axis.title = element_text(size = 20))
+
+## Check the diagnostic plots
+
+fits <- fitted(bonds15.glm)
+dev.resids <- resid(bonds15.glm)
+pear.resids <- resid(bonds15.glm, type="pearson")
+
+par(cex = 1.4)
+
+plot(fits, dev.resids, xlab="fitted values", ylab="deviance residuals", ylim=c(-2,2))
+abline(h=0, lty=2)
+
+plot(bonds$game, dev.resids, xlab="game", ylab="deviance residuals", ylim=c(-2, 2))
+abline(h=0, lty=2)
+
+qqnorm(dev.resids, ylab="deviance residuals", main="", ylim=c(-3, 3), xlim=c(-3,3))
+qqline(dev.resids)
+
+
 
