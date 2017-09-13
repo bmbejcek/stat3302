@@ -17,6 +17,10 @@ After the EDA process concluded, we built a generalized linear model based on st
 Let Yi be whether Bonds gets on base for at bat i in the 2001 season. Assume Yi ~ Bern(pi) where pi = prob that Bonds gets
 on base in at bat i and logit pi = β0 + β1xi + β2yi + β3zi where xi = 1 if someone is on base and 0 otherwise, yi = 1 / appearance and zi = game number.
 
+FINAL PAPER
+-------
+
+<img src="barrybonds.jpg" width = "900">
 
 AUTHORS
 -------
